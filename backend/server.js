@@ -54,7 +54,63 @@ app.post('/api/tasks', (req, res) => {
 });
 
 app.put('/api/tasks/:id', (req, res) => {
-    
+    const id = req.params.id;
+    const fields = [];
+    const values = [];
+
+    // Only add fields that are present in the request body
+    if (req.body.title !== undefined) {
+        fields.push('title = ?');
+        values.push(req.body.title);
+    }
+    if (req.body.description !== undefined) {
+        fields.push('description = ?');
+        values.push(req.body.description);
+    }
+    if (req.body.priority !== undefined) {
+        fields.push('priority = ?');
+        values.push(req.body.priority);
+    }
+    if (req.body.deadline !== undefined) {
+        fields.push('deadline = ?');
+        values.push(req.body.deadline);
+    }
+    if (req.body.status !== undefined) {
+        fields.push('status = ?');
+        values.push(req.body.status);
+    }
+
+    if (fields.length === 0) {
+        return res.status(400).json({ error: 'No fields to update' });
+    }
+
+    values.push(id);
+
+    const sql = `UPDATE tasks SET ${fields.join(', ')} WHERE id = ?`;
+
+    db.query(sql, values, (err, results) => {
+        if (err) {
+            res.status(500).json({ error: 'Failed to update task' });
+        } else {
+            res.json({ message: 'Task updated successfully' });
+        }
+    });
+})
+
+app.delete('/api/tasks/:id', (req, res) => {
+    const id =  req.params.id;
+
+    db.query(
+        'DELETE FROM tasks WHERE id = ?',
+        [id],
+        (err, results) => {
+            if(err){
+                res.status(500).json({ error: 'Failed to delete task' });
+            } else {
+                res.json({ message: 'Task deleted successfully' });
+            }
+        }
+    )
 })
 
 app.get('/', (req, res) => {

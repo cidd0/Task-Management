@@ -21,16 +21,21 @@ const TaskModal = ({ onClose, onTaskCreated, taskToEdit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Form submitted:', formData);
-
     try {
-        const response = await fetch('http://localhost:5000/api/tasks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
+        let response;
+        if(taskToEdit) {
+            response = await fetch (`http://localhost:5000/api/tasks/${taskToEdit.id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData),
+            });
+        } else {
+            response =  await fetch (`http://localhost:5000/api/tasks/`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData),
+            });
+        }
 
         if (response.ok) {
             console.log('Task saved successfully!');

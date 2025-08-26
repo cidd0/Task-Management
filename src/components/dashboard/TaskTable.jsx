@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MdVisibility, MdDelete, MdDone } from "react-icons/md";
 
-const TaskTable = ({ showActions = false, showHeader = true, tasks = [], onView}) => {
+const TaskTable = ({ showActions = false, showHeader = true, tasks = [], onView, onDelete, onDone}) => {
 
     const getPriorityColor = (priority) => {
         if(priority === 'High Priority') {
@@ -50,10 +50,10 @@ const TaskTable = ({ showActions = false, showHeader = true, tasks = [], onView}
                                         <button className="text-black hover:underline hover:text-gray-300 transition-color duration-200 cursor-pointer" onClick={() => onView(task)}>
                                             <MdVisibility />
                                         </button>
-                                        <button className="text-black hover:underline ml-4 hover:text-gray-300 transition-color duration-200 cursor-pointer">
+                                        <button className="text-black hover:underline ml-4 hover:text-gray-300 transition-color duration-200 cursor-pointer" onClick={() => onDelete(task)}>
                                             <MdDelete />
                                         </button>
-                                        <button className="text-black hover:underline ml-4 hover:text-gray-300 transition-color duration-200 cursor-pointer">
+                                        <button className="text-black hover:underline ml-4 hover:text-gray-300 transition-color duration-200 cursor-pointer" onClick={() => onDone(task)}>
                                             <MdDone />
                                         </button>
                                     </td>

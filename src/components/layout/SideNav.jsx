@@ -21,7 +21,7 @@ const SideNav = () => {
             </Link>
           </li>
           <li>
-            <Link to="/trash" className="flex items-center space-x-3 py-5 font-medium hover:bg-gray-400 transition-color duration-200">
+            <Link to="/completed" className="flex items-center space-x-3 py-5 font-medium hover:bg-gray-400 transition-color duration-200">
               <MdDone className="text-xl text-black ml-3" />
               <span>Completed</span>
             </Link>
