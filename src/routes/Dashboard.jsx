@@ -25,6 +25,7 @@ const Dashboard = () => {
 
   const completed = tasks.filter(task => task.status === 'completed').length;
   const todos = tasks.filter(task => task.status === 'todo').length;
+  const todoTasks = tasks.filter(task => task.status === 'todo')
   
   return (
   <div>
@@ -35,8 +36,8 @@ const Dashboard = () => {
       <StatCard title="TODOS" value={todos} icon={MdAssignment}/>
     </div>
     
-      <PriorityChart />
-      <TaskTable tasks={tasks}/>
+      <PriorityChart tasks={todoTasks}/>
+      <TaskTable tasks={todoTasks}/>
 
   </div>
   );
