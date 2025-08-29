@@ -33,7 +33,7 @@ const Tasks = () => {
   const handleDone =  async (taskId) => {
 
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+      const response = await fetch(`https://task-management-zbht.onrender.com/api/tasks/${taskId}`, {
         method: 'PUT',
         headers:  { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -63,7 +63,7 @@ const Tasks = () => {
 
   const fetchTasks = async () => {
           try {
-              const response = await fetch('http://localhost:5000/api/tasks');
+              const response = await fetch('https://task-management-zbht.onrender.com/api/tasks');
               const data = await response.json();
               setTasks(data);
               console.log('Tasks loaded:', data);
@@ -78,7 +78,7 @@ const Tasks = () => {
 
   const handleDelete = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+      const response = await fetch(`https://task-management-zbht.onrender.com/api/tasks/${taskId}`, {
         method: 'DELETE',
       });
       if (response.ok) {

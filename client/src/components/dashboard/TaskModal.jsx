@@ -24,13 +24,13 @@ const TaskModal = ({ onClose, onTaskCreated, taskToEdit }) => {
     try {
         let response;
         if(taskToEdit) {
-            response = await fetch (`http://localhost:5000/api/tasks/${taskToEdit.id}`, {
+            response = await fetch (`https://task-management-zbht.onrender.com/api/tasks/${taskToEdit.id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
             });
         } else {
-            response =  await fetch (`http://localhost:5000/api/tasks/`, {
+            response =  await fetch (`https://task-management-zbht.onrender.com/api/tasks`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
