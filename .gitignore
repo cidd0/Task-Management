@@ -1,13 +1,21 @@
 # Node.js dependencies
 node_modules/
+server/node_modules/
+client/node_modules/
 
 # Build output
 dist/
 build/
+server/dist/
+client/dist/
+server/build/
+client/build/
 
 # Environment variables
 .env
 .env.local
+server/.env
+client/.env
 
 # Logs
 npm-debug.log*
@@ -24,12 +32,18 @@ Thumbs.db
 
 # Optional: coverage reports
 coverage/
+server/coverage/
+client/coverage/
 
 # Optional: SASS/SCSS cache
 .sass-cache/
+client/.sass-cache/
+server/.sass-cache/
 
 # Optional: parcel-bundler cache
 .cache/
+client/.cache/
+server/.cache/
 
 # MacOS folder attributes
 .AppleDouble
