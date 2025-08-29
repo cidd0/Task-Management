@@ -35,6 +35,7 @@ app.get('/api/tasks', (req, res) => {
 });
 
 app.post('/api/tasks', (req, res) => {
+    console.log('POST /api/tasks req.body:', req.body);
     const { title, description, priority, deadline } = req.body;
 
     db.query(
@@ -42,6 +43,7 @@ app.post('/api/tasks', (req, res) => {
         [title, description, priority, deadline],
         (err, results) => {
             if(err){
+                console.error('DB INSERT error:', err);
                 res.status(500).json({ error: 'Failed to create task'});
             } else {
                 res.status(201).json({
@@ -58,7 +60,6 @@ app.put('/api/tasks/:id', (req, res) => {
     const fields = [];
     const values = [];
 
-    // Only add fields that are present in the request body
     if (req.body.title !== undefined) {
         fields.push('title = ?');
         values.push(req.body.title);
@@ -88,14 +89,19 @@ app.put('/api/tasks/:id', (req, res) => {
 
     const sql = `UPDATE tasks SET ${fields.join(', ')} WHERE id = ?`;
 
+    // Add these logs:
+    console.log('SQL:', sql);
+    console.log('Values:', values);
+
     db.query(sql, values, (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Failed to update task' });
+            console.error('UPDATE error:', err); // Log the actual error
+            res.status(500).json({ error: 'Failed to update task', details: err.message });
         } else {
             res.json({ message: 'Task updated successfully' });
         }
     });
-})
+});
 
 app.delete('/api/tasks/:id', (req, res) => {
     const id =  req.params.id;
