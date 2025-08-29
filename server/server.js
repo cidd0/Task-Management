@@ -62,7 +62,7 @@ app.put('/api/tasks/:id', (req, res) => {
     if (req.body.title !== undefined) {
         fields.push('title = ?');
         values.push(req.body.title);
-    }q
+    }
     if (req.body.description !== undefined) {
         fields.push('description = ?');
         values.push(req.body.description);
