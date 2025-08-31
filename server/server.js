@@ -91,13 +91,12 @@ app.put('/api/tasks/:id', (req, res) => {
 
     const sql = `UPDATE tasks SET ${fields.join(', ')} WHERE id = ?`;
 
-    // Add these logs:
     console.log('SQL:', sql);
     console.log('Values:', values);
 
     db.query(sql, values, (err, results) => {
         if (err) {
-            console.error('UPDATE error:', err); // Log the actual error
+            console.error('UPDATE error:', err);
             res.status(500).json({ error: 'Failed to update task', details: err.message });
         } else {
             res.json({ message: 'Task updated successfully' });

@@ -10,6 +10,7 @@ const TaskModal = ({ onClose, onTaskCreated, taskToEdit }) => {
   })
 
     const [showSuccess, setShowSuccess] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -20,6 +21,10 @@ const TaskModal = ({ onClose, onTaskCreated, taskToEdit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isSubmitting) return; 
+
+    setIsSubmitting(true);
 
     try {
         let response;
@@ -38,22 +43,19 @@ const TaskModal = ({ onClose, onTaskCreated, taskToEdit }) => {
         }
 
         if (response.ok) {
-            console.log('Task saved successfully!');
-            setShowSuccess(true); // Show success notification
-
-            if(onTaskCreated){
-                onTaskCreated();
-            }
-
+            setShowSuccess(true);
+            if (onTaskCreated) onTaskCreated();
             setTimeout(() => {
                 setShowSuccess(false);
-                onClose(); // Close the modal
-            }, 2000);
+                onClose();
+            }, 2000); 
         } else {
             console.log('Something went wrong');
         }
     } catch (error) {
         console.log('Error:', error);
+    } finally {
+        setIsSubmitting(false);
     }
   }
 
@@ -94,10 +96,10 @@ const TaskModal = ({ onClose, onTaskCreated, taskToEdit }) => {
                         </div>
                         <div className="flex-1">
                             <label className="block text-sm font-medium mb-2"> Set Deadline</label>
-                            <input type="date" name="deadline" value={formData.deadline} onChange={handleChange} className="w-full border border-gray-300 rounded-md p-2" required/>
+                            <input type="date" name="deadline" value={formData.deadline} onChange={handleChange} className="w-full border border-gray-300 rounded-md p-2" required min={new Date().toISOString().split("T")[0]}/>
                         </div>
                         <div className="flex gap-2 mt-6">
-                            <button type="submit" className="flex-1 bg-black text-white hover:bg-gray-400 transition-color duration-200 border rounded-md p-2">{taskToEdit ? "Save Task" : "Add Task"}</button>
+                            <button type="submit" disabled={isSubmitting} className="flex-1 bg-black text-white hover:bg-gray-400 transition-color duration-200 border rounded-md p-2">{isSubmitting ? "Adding..." : taskToEdit ? "Save Task" : "Add Task"}</button>
                             <button type="button" className="flex-1 hover:bg-gray-200 transition-color duration-200 border rounded-md p-2" onClick={onClose}>Cancel</button>
                         </div>
                     </form>

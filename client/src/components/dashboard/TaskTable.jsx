@@ -15,6 +15,22 @@ const TaskTable = ({ showActions = false, showHeader = true, tasks = [], onView,
         }
     }
 
+    const isOverdue = (task) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const deadline = new Date(task.deadline);
+        return deadline < today && task.status !== "completed";
+    }
+
+    const isDeadlineClose = (task) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const deadline = new Date(task.deadline);
+        const diffTime = deadline - today;
+        const diffDays = diffTime / (1000 * 60 * 60 * 24);
+        return diffDays > 0 && diffDays <= 2 && task.status !== "completed";
+    }
+
     return(
         <div>
             {showHeader && (
@@ -38,7 +54,7 @@ const TaskTable = ({ showActions = false, showHeader = true, tasks = [], onView,
                     </thead>
                     <tbody>
                         {tasks.map(task => (
-                            <tr key={task.id} className="border-b">
+                            <tr key={task.id} className={`border-b ${isOverdue(task) ? "bg-red-100" : ""}`}>
                                 <td className="py-2 px-4">{task.title}</td>
                                 <td className="py-2 px-4 flex items-center">
                                     <div className={`w-4 h-4 rounded-full mr-2 ${getPriorityColor(task.priority)}`}></div>
@@ -57,6 +73,12 @@ const TaskTable = ({ showActions = false, showHeader = true, tasks = [], onView,
                                             <MdDone />
                                         </button>
                                     </td>
+                                )}
+                                {isOverdue(task) && (
+                                    <td className="py-2 px-4 text-red-600 font-bold">Overdue</td>
+                                )}
+                                {isDeadlineClose(task) && !isOverdue(task) &&(
+                                    <td className="py-2 px-4 text-yellow-600 font-bold">Due Soon</td>
                                 )}
                             </tr>
                         ))}
