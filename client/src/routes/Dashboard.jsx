@@ -12,11 +12,19 @@ const Dashboard = () => {
     try {
         const response = await fetch('https://task-management-ufut.onrender.com/api/tasks');
         const data = await response.json();
-        setTasks(data);
-        console.log('Tasks loaded:', data);
+        
+        // Check if data is an array
+        if (Array.isArray(data)) {
+            setTasks(data);
+            console.log('Tasks loaded:', data);
+        } else {
+            console.error('Expected array, got:', data);
+            setTasks([]); // Empty array prevents filter errors
+        }
     } catch (error) {
         console.error('Error fetching tasks:', error);
-      }
+        setTasks([]);
+    }
   }
   
   useEffect(() => {
