@@ -29,13 +29,13 @@ const TaskModal = ({ onClose, onTaskCreated, taskToEdit }) => {
     try {
         let response;
         if(taskToEdit) {
-            response = await fetch (`https://task-management-zbht.onrender.com/api/tasks/${taskToEdit.id}`, {
+            response = await fetch (`https://task-management-ufut.onrender.com/api/tasks/${taskToEdit.id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
             });
         } else {
-            response =  await fetch (`https://task-management-zbht.onrender.com/api/tasks`, {
+            response =  await fetch (`https://task-management-ufut.onrender.com/api/tasks`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
